@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bm004242 BMÜ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="/forms/assets/bm.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a onclick="window.history.back()" class="button">Zurück</a>
+            <h1 class="text-center">BM004242 | ZFK(3)KDS 1,5</h1>
+        </nav>
+    </header>
+    <main>
+        <div class="formblatt" id="FormblattPDF">
+            <p class="text-center">i.O = in Ordnung / n.i.O = nicht in Ordnung / k.P. = keine Prüfung
+                <br> Bei messenden Prüfungen Messwert eintragen, bei n.i.O Fehlerbemerkung
+            </p>
+            <a onclick="nachpruefen('bm004242')" class="submit">Nachprüfung</a><div class="formzeile" id="bm004242_fz_1"><div class="formfeld1"><label for="bm004242_1" id="stationstext"><u>BMT 2 / St. 1 || 2 - 2.9</u><br><u>Fehlerart:</u> Gehäuse fehlt<br><u>Prüfbeschr.:</u> Gehäuse entnehmen</label></div><div class="formfeld2"><select id="bm004242_1"><option value="k.P.">k.P.</option><option value="n.i.O.">n.i.O.</option><option value="i.O.">i.O.</option></select></div><div class="formfeld3"><input type="text" id="bm004242_1_i" size="15"></div></div><div class="formzeile" id="bm004242_fz_2"><div class="formfeld1"><label for="bm004242_2" id="stationstext"><u>BMT 2 / St. 3 || Kamera VERISENS</u><br><u>Fehlerart:</u> kein Metall / verbogene Metalle /  Nase vom Metall verbogen<br><u>Prüfbeschr.:</u> Dummy B ins Nest legen und die Taste SET drücken. Bei  ROT Schlechtteil.  Dummys  müssen unbedingt wieder von Hand entnommen werden, sonst Gutteil</label></div><div class="formfeld2"><select id="bm004242_2"><option value="k.P.">k.P.</option><option value="n.i.O.">n.i.O.</option><option value="i.O.">i.O.</option></select></div><div class="formfeld3"><input type="text" id="bm004242_2_i" size="15"></div></div><div class="formzeile" id="bm004242_fz_3"><div class="formfeld1"><label for="bm004242_3" id="stationstext"><u>BMT 2 / St. 5 || 2 -  5.7 / 2 -  5.8</u><br><u>Fehlerart:</u> Metall 2  mit  Feder nicht vorhanden <br><u>Prüfbeschr.:</u> Metall 2  mit  Feder entnehmen </label></div><div class="formfeld2"><select id="bm004242_3"><option value="k.P.">k.P.</option><option value="n.i.O.">n.i.O.</option><option value="i.O.">i.O.</option></select></div><div class="formfeld3"><input type="text" id="bm004242_3_i" size="15"></div></div><div class="formzeile" id="bm004242_fz_4"><div class="formfeld1"><label for="bm004242_4" id="stationstext"><u>BMT 2 / St. 5 || 2 -  5.7 / 2 -  5.8</u><br><u>Fehlerart:</u> Metall 2 mit Feder zu hoch<br><u>Prüfbeschr.:</u> Dummy A wird vor der Prüfstation eingesetzt, muß als Ausschuß erkannt und aussortiert werden</label></div><div class="formfeld2"><select id="bm004242_4"><option value="k.P.">k.P.</option><option value="n.i.O.">n.i.O.</option><option value="i.O.">i.O.</option></select></div><div class="formfeld3"><input type="text" id="bm004242_4_i" size="15"></div></div><div class="formzeile" id="bm004242_fz_5"><div class="formfeld1"><label for="bm004242_5" id="stationstext"><u>BMT 2 / St. 7 || 2 -  7.7 / 2.-  7.8</u><br><u>Fehlerart:</u> Metall 3 mit Feder nicht vorhanden<br><u>Prüfbeschr.:</u> Metall 3  mit  Feder entnehmen</label></div><div class="formfeld2"><select id="bm004242_5"><option value="k.P.">k.P.</option><option value="n.i.O.">n.i.O.</option><option value="i.O.">i.O.</option></select></div><div class="formfeld3"><input type="text" id="bm004242_5_i" size="15"></div></div><div class="formzeile" id="bm004242_fz_6"><div class="formfeld1"><label for="bm004242_6" id="stationstext"><u>BMT 2 / St. 7 || 2 -  7.7 / 2.-  7.</u><br><u>Fehlerart:</u> Metall 3 mit Feder zu hoch<br><u>Prüfbeschr.:</u> Dummy A wird vor der Prüfstation eingesetzt, muß als Ausschuß erkannt und aussortiert werden</label></div><div class="formfeld2"><select id="bm004242_6"><option value="k.P.">k.P.</option><option value="n.i.O.">n.i.O.</option><option value="i.O.">i.O.</option></select></div><div class="formfeld3"><input type="text" id="bm004242_6_i" size="15"></div></div><div class="formzeile" id="bm004242_fz_7"><div class="formfeld1"><label for="bm004242_7" id="stationstext"><u>BMT 2 / St. 9 || 2 -  9.7</u><br><u>Fehlerart:</u> Deckel nicht vorhanden<br><u>Prüfbeschr.:</u> Deckel entfernen</label></div><div class="formfeld2"><select id="bm004242_7"><option value="k.P.">k.P.</option><option value="n.i.O.">n.i.O.</option><option value="i.O.">i.O.</option></select></div><div class="formfeld3"><input type="text" id="bm004242_7_i" size="15"></div></div><div class="formzeile" id="bm004242_fz_8"><div class="formfeld1"><label for="bm004242_8" id="stationstext"><u>Etikettendrucker || </u><br><u>Fehlerart:</u> Etikett nicht lesbar<br><u>Prüfbeschr.:</u> Prüfetikett drucken, scannen und im Formblatt Prüfetikett aufkleben.</label></div><div class="formfeld2"><select id="bm004242_8"><option value="k.P.">k.P.</option><option value="n.i.O.">n.i.O.</option><option value="i.O.">i.O.</option></select></div><div class="formfeld3"><input type="text" id="bm004242_8_i" size="15"></div></div><div class="formzeile" id="bm004242_fz_9"><div class="formfeld1"><label for="bm004242_9" id="stationstext"><u>VorMT1 || </u><br><u>Fehlerart:</u> Öffnungsmaß kontrollieren   (Feder)<br><u>Prüfbeschr.:</u> Spaltmaß mit Lehre kontrollieren 0.30 mm.</label></div><div class="formfeld2"><select id="bm004242_9"><option value="k.P.">k.P.</option><option value="n.i.O.">n.i.O.</option><option value="i.O.">i.O.</option></select></div><div class="formfeld3"><input type="text" id="bm004242_9_i" size="15"></div></div><div class="formzeile" id="bm004242_fz_10"><div class="formfeld1"><label for="bm004242_10" id="stationstext"><u>VorMt2 || </u><br><u>Fehlerart:</u> Öffnungsmaß kontrollieren (Feder)<br><u>Prüfbeschr.:</u> Spaltmaß mit Lehre kontrollieren 0.30mm.</label></div><div class="formfeld2"><select id="bm004242_10"><option value="k.P.">k.P.</option><option value="n.i.O.">n.i.O.</option><option value="i.O.">i.O.</option></select></div><div class="formfeld3"><input type="text" id="bm004242_10_i" size="15"></div></div><div class="formzeile" id="bm004242_fz_11"><div class="formfeld1"><label for="bm004242_11" id="stationstext"><u>VorMt3 || </u><br><u>Fehlerart:</u> Öffnungsmaß kontrollieren     (Feder)<br><u>Prüfbeschr.:</u> Spaltmaß mit Lehre kontrollieren   0.30 mm</label></div><div class="formfeld2"><select id="bm004242_11"><option value="k.P.">k.P.</option><option value="n.i.O.">n.i.O.</option><option value="i.O.">i.O.</option></select></div><div class="formfeld3"><input type="text" id="bm004242_11_i" size="15"></div></div><div class="formzeile" id="bm004242_fz_12"><div class="formfeld1"><label for="bm004242_12" id="stationstext"><u>VorMt1/2/3 || </u><br><u>Fehlerart:</u> <br><u>Prüfbeschr.:</u> optische Kontrolle der Schraubenversiegelung für den festen Anschlag</label></div><div class="formfeld2"><select id="bm004242_12"><option value="k.P.">k.P.</option><option value="n.i.O.">n.i.O.</option><option value="i.O.">i.O.</option></select></div><div class="formfeld3"><input type="text" id="bm004242_12_i" size="15"></div></div><div class="formzeile" id="bm004242_fz_13"><div class="formfeld1"><label for="bm004242_13" id="stationstext"><u>HAPL am BM || </u><br><u>Fehlerart:</u> Auszugskraft messen<br><u>Prüfbeschr.:</u> Auszugskraft am Messgerät prüfen. Je Reihe 3 Pole. Ergebniss &gt;=20 N = i.O. Ergebniss in braune Mappe eintragen.</label></div><div class="formfeld2"><select id="bm004242_13"><option value="k.P.">k.P.</option><option value="n.i.O.">n.i.O.</option><option value="i.O.">i.O.</option></select></div><div class="formfeld3"><input type="text" id="bm004242_13_i" size="15"></div></div><a onclick="pdf('bm004242')" class="submit">Abschicken</a>
+        </div>
+    </main>
+    <script src="/forms/functions.js"></script>
+    <script src="/server.js"></script>
+    <script>
+        window.onload = async function() {
+            bm = "bm004242"
+            data = [bm];
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            };
+
+            const response = await fetch('/onload', options);
+            const resData = await response.json()
+            var resDataArray = [];
+            for (item in resData) {
+                resDataArray.push(resData[item]);
+            }
+            resDataArray.shift();
+            
+            const response2 = await fetch('/nachpruefen', options);
+            const resData2 = await response2.json()
+            var lastBM = parseInt(resData2["letzte"]);
+            var faellig = []
+            var currentDate = new Date();
+            for (var i=0; i<resDataArray.length; i++) {             
+                var ret = new Date(lastBM + (1000 * 60 * 60 * 24 * 7 * parseInt(resDataArray[i])));
+                ret.setDate(ret.getDate() + (1 - 1 - ret.getDay()) % 7 + 1);
+                ret.setHours(0,0,0,0)
+                ret = ret.getTime()
+                if (parseInt(currentDate.getTime()) < parseInt(ret)) {
+                    faellig.push(i+1)
+                }
+            }
+        
+            for (var i=0; i<faellig.length; i++) {
+                document.getElementById(bm + '_fz_' + faellig[i]).className = "formzeileHide";
+            }
+        }
+    </script>
+    <script>
+        function pdf(bm) {
+            submit(bm);
+            window.jsPDF = window.jspdf.jsPDF;
+            var jpdf = new jsPDF("p", "pt", "a4", true);
+            let pWidth = jpdf.internal.pageSize.width;
+            let srcWidth = document.body.scrollWidth;
+            let margin = 18;
+            let scale = (pWidth - margin * 2) / srcWidth;
+            var currentDate = new Date();
+            var months = ["January", "February", "March", "April", "May", "June", "July","August", "September", "October", "November", "December"];
+            jpdf.html(document.body, {html2canvas: { scale: scale },callback: function(jpdf) {
+                jpdf.save(bm + " " + currentDate.getDate() + "-" + months[currentDate.getMonth()+1] + "-" + currentDate.getFullYear() +'.pdf');
+            }})
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

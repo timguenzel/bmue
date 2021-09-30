@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="/forms/assets/bm.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a onclick="window.history.back()" class="button">Zurück</a>
+            <h1 class="text-center">PCC 55</h1>
+        </nav>
+    </header>
+    <main>
+        <div class="formblatt">
+            <label for="pcc_55_i">Passwort:</label>
+            <input type="password" id="pcc_55_i" name="pcc_55_i">
+            <a class="password" onclick="passwordCheck()">Anmelden</a>
+            <div>
+                <label id="pw_falsch" style="color:red"></label>
+            </div>
+        </div>
+    </main>
+    <script>
+        async function passwordCheck() {
+            var curPath = window.location.pathname;
+            curPath = curPath.split("/")[1];
+            var textBox = curPath + "_i";
+            var password1 = document.getElementById(textBox).value;
+            const response = await fetch('/password');
+            const data = await response.json();
+            for (item of data) {
+                if (item.valuestream == curPath) {
+                    if (password1 == item.password) {
+                        window.location.href = "/n7UzMKe4a"
+                    }
+                } else {
+                        document.getElementById("pw_falsch").innerText = "Das eingegebene Passwort ist falsch!"
+                }
+            }
+        }
+    </script>
+    <script type="text/javascript" src="/forms/functions.js"></script>
+    <script type="text/javascript" src="/server.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
