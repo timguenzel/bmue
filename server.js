@@ -160,6 +160,10 @@ app.get('/HxgZyR3mU/bmconf/delbm', (req,res) => {
     res.sendFile(path.join(__dirname, '/forms/pcc_50/delbm.html'));
 })
 
+app.get('/HxgZyR3mU/bmconf/editbm', (req,res) => { 
+    res.sendFile(path.join(__dirname, '/forms/pcc_50/editbm.html'));
+})
+
 app.get('/HxgZyR3mU/bm[0-9]{6}', (req,res) => {
     //BMÜ-Formblatt eines BMs aus dem Valuestream PCC 50
     var htmlPath = './forms/pcc_50/' + req.originalUrl.split('/')[2] + '.html';
@@ -261,11 +265,14 @@ app.post("/checkbm", (req,res) => {
         } else {
             res.json(true);
         }
-        
     })
     db.close();  
 })
 
+app.post("/editbm", (req,res) => {
+    html = req.body[0]
+    console.log(html)
+})
 
 app.post('/submit', (req,res) => {
     //Dieser link wird nur durch den "Abschicken" Button gefetched
