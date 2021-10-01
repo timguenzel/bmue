@@ -20,7 +20,6 @@ function submit(bm) {
 }
 
 async function nachpruefen(bm) {
-    
     data = [bm];
     const options = {
         method: 'POST',
@@ -36,7 +35,6 @@ async function nachpruefen(bm) {
     for (item in resData) {
         resDataArray.push(resData[item]);
     }
-    var currentDate = parseInt(resDataArray[0]);
     resDataArray.shift();
     var x = 0;
     for (var i = 1; i<=resDataArray.length/2; i++){
@@ -52,7 +50,6 @@ function createHtml(pcc, vorschau) {
     try {
         document.getElementById("FormblattPDF").hidden = true;
     } catch (e) {}
-    
     
     rows = parseInt(document.getElementById("input1").value);
     if (!Number.isInteger(rows)) {
@@ -199,7 +196,7 @@ function createHtml(pcc, vorschau) {
     }
 }
 
-async function weiter(pcc) {
+async function weiter(pcc, edit) {
     rows = parseInt(document.getElementById("input1").value);
     if (!Number.isInteger(rows)) {
         document.getElementById("input1").style = "background-color: rgb(255, 125, 100);";
@@ -226,85 +223,21 @@ async function weiter(pcc) {
         },
         body: JSON.stringify(data)
     }
-    response = await fetch("/checkbm",options)
+    response = await fetch("/checkbm", options)
     checkbm = await response.json()
     if (checkbm) {
+        alert(`Das Betriebsmittel ${bm} existiert bereits!`)
         return
     }
     document.getElementById("input1").disabled = true;
     document.getElementById("input2").disabled = true;
     document.getElementById("input3").disabled = true;
 
+
     formblatt = document.getElementById('newbm_fb')
 
     for (var i=1; i<=rows; i++){
-        station = document.createElement('div');
-        station.className = "formzeile";
-        label_stname = document.createElement('label');
-        label_stname.htmlFor = 'stname_' + i;
-        label_stname.className="newbmtext"
-        label_stname.innerHTML = "Stationsname:"
-        stname = document.createElement('input');
-        stname.type='text';
-        stname.className="newbmtext";
-        stname.id = "stname_" + i;
-        stname.size = 7;
-        label_sensor = document.createElement('label');
-        label_sensor.htmlFor = 'sensor_' + i;
-        label_sensor.className="newbmtext";
-        label_sensor.innerHTML = "Sensoradresse:"
-        sensor = document.createElement('input');
-        sensor.type='text';
-        sensor.className="newbmtext";
-        sensor.id = "sensor_" + i;
-        sensor.size = 7;
-        label_fehlerart = document.createElement('label');
-        label_fehlerart.htmlFor = 'fehlerart_' + i;
-        label_fehlerart.innerHTML = "Fehlerart:";
-        label_fehlerart.className="newbmtext"
-        fehlerart = document.createElement('input');
-        fehlerart.type='text';
-        fehlerart.className="newbmtext";
-        fehlerart.id = "fehlerart_" + i;
-        fehlerart.size = 15;     
-        label_pruefbes = document.createElement('label');
-        label_pruefbes.htmlFor = 'pruefbes_' + i;
-        label_pruefbes.className="newbmtext"
-        label_pruefbes.innerHTML = "Prüfbes.:";
-        pruefbes = document.createElement('input');
-        pruefbes.type='text';
-        pruefbes.className="newbmtext";
-        pruefbes.id = "pruefbes_" + i;
-        pruefbes.size = 15;
-        label_intervall = document.createElement('label');
-        label_intervall.htmlFor = 'intervall_' + i;
-        label_intervall.className="newbmtext"
-        label_intervall.innerHTML = "Intervall:";
-        intervall = document.createElement('input');
-        intervall.type='text';
-        intervall.className="newbmtext";
-        intervall.id = "intervall_" + i;
-        intervall.size = 4;
-        
-        nummer = document.createElement("p")
-        nummer.style = "margin-top: 5px;"
-        nummer.innerHTML = i + '.';
-        station.appendChild(nummer)
-        station.appendChild(label_stname)
-        station.appendChild(stname)
-     
-        station.appendChild(label_sensor)
-        station.appendChild(sensor)
-     
-        station.appendChild(label_fehlerart)
-        station.appendChild(fehlerart)
-       
-        station.appendChild(label_pruefbes)
-        station.appendChild(pruefbes)
-
-        station.appendChild(label_intervall)
-        station.appendChild(intervall)
-       
+        station = createStationRow(i)
         formblatt.appendChild(station)
     }
     vorschau = document.createElement("a");
@@ -324,7 +257,7 @@ async function weiter(pcc) {
 
 function deletebm(vs) {
     bm = document.getElementById("del_select").value;
-    text = `Wollen Sie wirklich das Formblatt und den Button für das Betriebsmittel ${bm} löschen?`
+    text = `Wollen Sie wirklich das Betriebsmittel ${bm} restlos löschen?\nAlle Datenbank-Einträge werden hiermit ebenfalls gelöscht.`
     var check = window.confirm(text)
     if (!check) {
         return;
@@ -332,7 +265,6 @@ function deletebm(vs) {
     $(document).ready(function()
     {
         $.get(`/forms/pcc_${vs}/vs_${vs}.html`, function (html_string) {
-            console.log(`<a id="${bm}" onclick="bm_click(this.id)" class="button">${bm.toUpperCase()}</a>`)
             html_string = html_string.split(`<a id='${bm}' onclick='bm_click(this.id)' class='button'>${bm.toUpperCase()}</a>`)
             new_html = html_string[0] + html_string[1]
             data = [vs, bm, new_html]
@@ -345,6 +277,120 @@ function deletebm(vs) {
             }
             fetch("/deletebm", options)
             location.reload();
+        }, 'html');
+    });
+}
+
+function createStationRow(i) {
+    station = document.createElement('div');
+    station.className = "formzeile";
+    label_stname = document.createElement('label');
+    label_stname.htmlFor = 'stname_' + i;
+    label_stname.className = "newbmtext"
+    label_stname.innerHTML = "Stationsname:"
+    stname = document.createElement('input');
+    stname.type = 'text';
+    stname.className = "newbmtext";
+    stname.id = "stname_" + i;
+    stname.size = 7;
+    label_sensor = document.createElement('label');
+    label_sensor.htmlFor = 'sensor_' + i;
+    label_sensor.className = "newbmtext";
+    label_sensor.innerHTML = "Sensoradresse:"
+    sensor = document.createElement('input');
+    sensor.type = 'text';
+    sensor.className = "newbmtext";
+    sensor.id = "sensor_" + i;
+    sensor.size = 7;
+    label_fehlerart = document.createElement('label');
+    label_fehlerart.htmlFor = 'fehlerart_' + i;
+    label_fehlerart.innerHTML = "Fehlerart:";
+    label_fehlerart.className = "newbmtext"
+    fehlerart = document.createElement('input');
+    fehlerart.type = 'text';
+    fehlerart.className = "newbmtext";
+    fehlerart.id = "fehlerart_" + i;
+    fehlerart.size = 15;
+    label_pruefbes = document.createElement('label');
+    label_pruefbes.htmlFor = 'pruefbes_' + i;
+    label_pruefbes.className = "newbmtext"
+    label_pruefbes.innerHTML = "Prüfbes.:";
+    pruefbes = document.createElement('input');
+    pruefbes.type = 'text';
+    pruefbes.className = "newbmtext";
+    pruefbes.id = "pruefbes_" + i;
+    pruefbes.size = 15;
+    label_intervall = document.createElement('label');
+    label_intervall.htmlFor = 'intervall_' + i;
+    label_intervall.className = "newbmtext"
+    label_intervall.innerHTML = "Intervall:";
+    intervall = document.createElement('input');
+    intervall.type = 'text';
+    intervall.className = "newbmtext";
+    intervall.id = "intervall_" + i;
+    intervall.size = 4;
+
+    nummer = document.createElement("p")
+    nummer.style = "margin-top: 5px;"
+    nummer.innerHTML = i + '.';
+    station.appendChild(nummer)
+    station.appendChild(label_stname)
+    station.appendChild(stname)
+
+    station.appendChild(label_sensor)
+    station.appendChild(sensor)
+
+    station.appendChild(label_fehlerart)
+    station.appendChild(fehlerart)
+
+    station.appendChild(label_pruefbes)
+    station.appendChild(pruefbes)
+
+    station.appendChild(label_intervall)
+    station.appendChild(intervall)
+
+    return station;
+}
+
+function editbm() {
+    bm = document.getElementById("edit_select").value;
+    console.log(bm)
+    $(document).ready(function()
+    {
+        $.get(`/forms/pcc_50/${bm}.html`, function (html_string) {
+            console.log(html_string)
+            formblatt = document.getElementById("editbm_fb1")
+            formblatt.hidden=false;
+            var regex = /"stationstext"/gi, result, indices1 = [], indices2 = [];
+            while ( (result = regex.exec(html_string)) ) {
+                indices1.push(result.index);
+            }
+            regex = /label></gi
+            while ( (result = regex.exec(html_string)) ) {
+                indices2.push(result.index);
+            }
+           
+            for (var i=0; i<indices1.length; i++) {
+                station = createStationRow(i+1)
+                formblatt.appendChild(station)
+            }
+            try {
+                var currentDiv = document.getElementById("editbm_fb1");
+                document.body.insertBefore(formblatt, currentDiv.nextSibling);
+            } catch (e) {}
+            for (var i=1; i<=indices1.length; i++) {
+                curText = html_string.substring(indices1[i-1]+18, indices2[i-1]-2)
+                stname = curText.split("||")[0]
+                sensor = curText.split("||")[1]
+                sensor = sensor.substring(0, sensor.indexOf("u><")-2)
+                fehlerart = curText.substring(curText.indexOf("Fehlerart:</u>")+15, curText.indexOf("<br><u>Pr"))
+                pruefbes = curText.substring(curText.indexOf("Prüfbeschr.:")+17)
+                console.log(stname)
+                document.getElementById("stname_" + i).value = stname;
+                document.getElementById("sensor_" + i).value = sensor;
+                document.getElementById("fehlerart_" + i).value = fehlerart;
+                document.getElementById("pruefbes_" + i).value = pruefbes;
+            }
         }, 'html');
     });
 }
