@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BM008675 BMÜ</title> <!-- BM eintragen -->
+    <title>bm008675 BMÜ</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="/forms/assets/bm.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
@@ -23,136 +23,14 @@
             <p class="text-center">i.O = in Ordnung / n.i.O = nicht in Ordnung / k.P. = keine Prüfung
                 <br> Bei messenden Prüfungen Messwert eintragen, bei n.i.O Fehlerbemerkung
             </p>
-            <a onclick="nachpruefen('bm008675')" class="submit">Nachprüfung</a> <!--nachpruefen([name der bm]=-->
-            <div class="formzeile" id="bm008675_fz_1"> <!-- id="[jeweilige BM]_fz_[Nummer der Prüfung]"-->
-                <div class="formfeld1">
-                    <label for="bm008675_1" id="stationtext"><u>1x | MT1 / St. 8 | S1-8.20</u> <!--Zwischen <u></u> Station || Sensoradresse, for="[jeweilige BM]_[Nummer der Prüfung]"-->
-                        <br> <span id="secondtext"><u>Fehlerart:</u> Gewindebuchse zu hoch</span>
-                        <br> <span id="secondtext"><u>Prüfbeschr.:</u> Vorhandenes Gehäuse durch Dummy Nr.1 ersetzen und eine Messung durchführen</span>
-                    </label>
-                </div>
-                <div class="formfeld2">
-                    <!--name="[jeweilige BM]_[Nummer der Prüfung]_dd" id="[dasselbe wie label for=""]"-->
-                    <select name="bm008675_1_dd" id="bm008675_1">
-                        <option value ="k.P.">k.P.</option>
-                        <option value ="n.i.O">n.i.O</option>
-                        <option value ="i.O">i.O</option>
-                    </select>
-                </div>
-                <div class="formfeld3">
-                    <!--id sowie name="[jeweilige BM]_[Nummer der Prüfung]_i"-->
-                    <input type="text" id="bm008675_1_i" name="bm008675_1_i" size="15"><br><br>
-                </div>
-            </div> <!--von <div class="formzeile"> bis hier kopieren für neue zeile-->
-            <div class="formzeile" id="bm008675_fz_2"> <!-- id="[jeweilige BM]_fz_[Nummer der Prüfung]"-->
-                <div class="formfeld1">
-                    <label for="bm008675_2" id="stationtext"><u>1x | MT 2 / St. 7 | S2-7.20</u> <!--Zwischen <u></u> Station || Sensoradresse, for="[jeweilige BM]_[Nummer der Prüfung]"-->
-                        <br> <span id="secondtext"><u>Fehlerart:</u> Gewindebuchse zu hoch</span>
-                        <br> <span id="secondtext"><u>Prüfbeschr.:</u> Vorhandenes Gehäuse durch Dummy Nr.1 ersetzen und eine Messung durchführen</span>
-                    </label>
-                </div>
-                <div class="formfeld2">
-                    <!--name="[jeweilige BM]_[Nummer der Prüfung]_dd" id="[dasselbe wie label for=""]"-->
-                    <select name="bm008675_2_dd" id="bm008675_2">
-                        <option value ="k.P.">k.P.</option>
-                        <option value ="n.i.O">n.i.O</option>
-                        <option value ="i.O">i.O</option>
-                    </select>
-                </div>
-                <div class="formfeld3">
-                    <!--id sowie name="[jeweilige BM]_[Nummer der Prüfung]_i"-->
-                    <input type="text" id="bm008675_2_i" name="bm008675_2_i" size="15"><br><br>
-                </div>
-            </div>
-            <div class="formzeile" id="bm008675_fz_3"> <!-- id="[jeweilige BM]_fz_[Nummer der Prüfung]"-->
-                <div class="formfeld1">
-                    <label for="bm008675_3" id="stationtext"><u>MT 2 / St. 8,9  | Kamera 1 u. 2
-                        </u> <!--Zwischen <u></u> Station || Sensoradresse, for="[jeweilige BM]_[Nummer der Prüfung]"-->
-                        <br> <span id="secondtext"><u>Fehlerart:</u> Unsichere Messung durch verschmutztes Objektiv und Beleuchtung</span>
-                        <br> <span id="secondtext"><u>Prüfbeschr.:</u> Objektive und die Beleuchtung mit Glasreiniger reinigen </span>
-                    </label>
-                </div>
-                <div class="formfeld2">
-                    <!--name="[jeweilige BM]_[Nummer der Prüfung]_dd" id="[dasselbe wie label for=""]"-->
-                    <select name="bm008675_3_dd" id="bm008675_3">
-                        <option value ="k.P.">k.P.</option>
-                        <option value ="n.i.O">n.i.O</option>
-                        <option value ="i.O">i.O</option>
-                    </select>
-                </div>
-                <div class="formfeld3">
-                    <!--id sowie name="[jeweilige BM]_[Nummer der Prüfung]_i"-->
-                    <input type="text" id="bm008675_3_i" name="bm008675_3_i" size="15"><br><br>
-                </div>
-            </div>
-            <div class="formzeile" id="bm008675_fz_4"> <!-- id="[jeweilige BM]_fz_[Nummer der Prüfung]"-->
-                <div class="formfeld1">
-                    <label for="bm008675_4" id="stationtext"><u>3x | MT 2 / St. 8 | Kamera 1</u> <!--Zwischen <u></u> Station || Sensoradresse, for="[jeweilige BM]_[Nummer der Prüfung]"-->
-                        <br> <span id="secondtext"><u>Fehlerart:</u> "Span in Hülse"</span>
-                        <br> <span id="secondtext"><u>Prüfbeschr.:</u> Vorhandenes Gehäuse durch den Dummy Nr. 2 ersetzen und drei Hand Messungen durchführen</span>
-                    </label>
-                </div>
-                <div class="formfeld2">
-                    <!--name="[jeweilige BM]_[Nummer der Prüfung]_dd" id="[dasselbe wie label for=""]"-->
-                    <select name="bm008675_4_dd" id="bm008675_4">
-                        <option value ="k.P.">k.P.</option>
-                        <option value ="n.i.O">n.i.O</option>
-                        <option value ="i.O">i.O</option>
-                    </select>
-                </div>
-                <div class="formfeld3">
-                    <!--id sowie name="[jeweilige BM]_[Nummer der Prüfung]_i"-->
-                    <input type="text" id="bm008675_4_i" name="bm008675_4_i" size="15"><br><br>
-                </div>
-            </div>
-            <div class="formzeile" id="bm008675_fz_5"> <!-- id="[jeweilige BM]_fz_[Nummer der Prüfung]"-->
-                <div class="formfeld1">
-                    <label for="bm008675_5" id="stationtext"><u>3x | MT 2 / St. 9 | Kamera 2</u> <!--Zwischen <u></u> Station || Sensoradresse, for="[jeweilige BM]_[Nummer der Prüfung]"-->
-                        <br> <span id="secondtext"><u>Fehlerart:</u> „Fehlendes Gewinde“</span>
-                        <br> <span id="secondtext"><u>Prüfbeschr.:</u> Vorhandenes Gehäuse durch den Dummy Nr. 3 ersetzen und drei Hand Messungen durchführen</span>
-                    </label>
-                </div>
-                <div class="formfeld2">
-                    <!--name="[jeweilige BM]_[Nummer der Prüfung]_dd" id="[dasselbe wie label for=""]"-->
-                    <select name="bm008675_5_dd" id="bm008675_5">
-                        <option value ="k.P.">k.P.</option>
-                        <option value ="n.i.O">n.i.O</option>
-                        <option value ="i.O">i.O</option>
-                    </select>
-                </div>
-                <div class="formfeld3">
-                    <!--id sowie name="[jeweilige BM]_[Nummer der Prüfung]_i"-->
-                    <input type="text" id="bm008675_5_i" name="bm008675_5_i" size="15"><br><br>
-                </div>
-            </div>
-            <div class="formzeile" id="bm008675_fz_6"> <!-- id="[jeweilige BM]_fz_[Nummer der Prüfung]"-->
-                <div class="formfeld1">
-                    <label for="bm008675_6" id="stationtext"><u>4x | MT 2 / St. 10 | S1-10 5/2, S1-10 4/4</u> <!--Zwischen <u></u> Station || Sensoradresse, for="[jeweilige BM]_[Nummer der Prüfung]"-->
-                        <br> <span id="secondtext"><u>Fehlerart:</u> Ausschuss wird den Gutteilen zugeführt</span>
-                        <br> <span id="secondtext"><u>Prüfbeschr.:</u> Beobachten ob die verwendeten Dummys dem Ausschuss zugeführt werden</span>
-                    </label>
-                </div>
-                <div class="formfeld2">
-                    <!--name="[jeweilige BM]_[Nummer der Prüfung]_dd" id="[dasselbe wie label for=""]"-->
-                    <select name="bm008675_6_dd" id="bm008675_6">
-                        <option value ="k.P.">k.P.</option>
-                        <option value ="n.i.O">n.i.O</option>
-                        <option value ="i.O">i.O</option>
-                    </select>
-                </div>
-                <div class="formfeld3">
-                    <!--id sowie name="[jeweilige BM]_[Nummer der Prüfung]_i"-->
-                    <input type="text" id="bm008675_6_i" name="bm008675_6_i" size="15"><br><br>
-                </div>
-            </div>
-            <a class="submit" onclick="pdf('bm008675')">Abschicken</a><!--pdf('[name der bm]')-->
+            <a onclick="nachpruefen('bm008675')" class="submit">Nachprüfung</a><div class="formzeile" id="bm008675_fz_1"><div class="formfeld1"><label for="bm008675_1" id="stationstext"><u>MT1 / Station 8 || S1-8.20</u><br><u>Fehlerart:</u> Gewindebuchse zu hoch<br><u>Prüfbeschr.:</u> Vorhandenes Gehäuse durch Dummy Nr.1 ersetzen und eine Messung durchführen</label></div><div class="formfeld2"><select id="bm008675_1"><option value="k.P.">k.P.</option><option value="n.i.O.">n.i.O.</option><option value="i.O.">i.O.</option></select></div><div class="formfeld3"><input type="text" id="bm008675_1_i" size="15"></div></div><div class="formzeile" id="bm008675_fz_2"><div class="formfeld1"><label for="bm008675_2" id="stationstext"><u>MT 2 / Station 7 || S2-7.20</u><br><u>Fehlerart:</u> Gewindebuchse zu hoch<br><u>Prüfbeschr.:</u> Vorhandenes Gehäuse durch Dummy Nr.1 ersetzen und eine Messung durchführen</label></div><div class="formfeld2"><select id="bm008675_2"><option value="k.P.">k.P.</option><option value="n.i.O.">n.i.O.</option><option value="i.O.">i.O.</option></select></div><div class="formfeld3"><input type="text" id="bm008675_2_i" size="15"></div></div><div class="formzeile" id="bm008675_fz_3"><div class="formfeld1"><label for="bm008675_3" id="stationstext"><u>MT 2 /  Station 8,9  || Kamera 1 u. 2</u><br><u>Fehlerart:</u> Unsichere Messung durch verschmutztes Objektiv und Beleuchtung<br><u>Prüfbeschr.:</u> Objektive und die Beleuchtung mit Glasreiniger reinigen</label></div><div class="formfeld2"><select id="bm008675_3"><option value="k.P.">k.P.</option><option value="n.i.O.">n.i.O.</option><option value="i.O.">i.O.</option></select></div><div class="formfeld3"><input type="text" id="bm008675_3_i" size="15"></div></div><div class="formzeile" id="bm008675_fz_4"><div class="formfeld1"><label for="bm008675_4" id="stationstext"><u>MT 2 /  Station 8 || Kamera 1</u><br><u>Fehlerart:</u> "Span in Hülse"<br><u>Prüfbeschr.:</u> Vorhandenes Gehäuse durch den Dummy Nr. 2 ersetzen und drei Hand Messungen durchführen</label></div><div class="formfeld2"><select id="bm008675_4"><option value="k.P.">k.P.</option><option value="n.i.O.">n.i.O.</option><option value="i.O.">i.O.</option></select></div><div class="formfeld3"><input type="text" id="bm008675_4_i" size="15"></div></div><div class="formzeile" id="bm008675_fz_5"><div class="formfeld1"><label for="bm008675_5" id="stationstext"><u>MT 2 /  Station 9 || Kamera 2</u><br><u>Fehlerart:</u> „Fehlendes Gewinde“<br><u>Prüfbeschr.:</u> Vorhandenes Gehäuse durch den Dummy Nr. 3 ersetzen und drei Hand Messungen durchführen</label></div><div class="formfeld2"><select id="bm008675_5"><option value="k.P.">k.P.</option><option value="n.i.O.">n.i.O.</option><option value="i.O.">i.O.</option></select></div><div class="formfeld3"><input type="text" id="bm008675_5_i" size="15"></div></div><div class="formzeile" id="bm008675_fz_6"><div class="formfeld1"><label for="bm008675_6" id="stationstext"><u>MT 2 / Station 10 || S1-10 5/2 S1-10 4/4</u><br><u>Fehlerart:</u> Ausschuss wird den Gutteilen zugeführt<br><u>Prüfbeschr.:</u> Beobachten ob die verwendeten Dummys dem Ausschuss zugeführt werden</label></div><div class="formfeld2"><select id="bm008675_6"><option value="k.P.">k.P.</option><option value="n.i.O.">n.i.O.</option><option value="i.O.">i.O.</option></select></div><div class="formfeld3"><input type="text" id="bm008675_6_i" size="15"></div></div><a onclick="pdf('bm008675')" class="submit">Abschicken</a>
         </div>
     </main>
     <script src="/forms/functions.js"></script>
     <script src="/server.js"></script>
     <script>
         window.onload = async function() {
-            bm = "bm008675";
+            bm = "bm008675"
             data = [bm];
             const options = {
                 method: 'POST',
@@ -186,11 +64,7 @@
             }
         
             for (var i=0; i<faellig.length; i++) {
-                try {
-                    document.getElementById(bm + '_fz_' + faellig[i]).className = "formzeileShow";
-                } catch (e) {
-                    break;
-                }
+                document.getElementById(bm + '_fz_' + faellig[i]).className = "formzeileHide";
             }
         }
     </script>
@@ -204,9 +78,9 @@
             let margin = 18;
             let scale = (pWidth - margin * 2) / srcWidth;
             var currentDate = new Date();
-            var months = ["January", "February", "March", "April", "May", "June", "July","August", "September", "October", "November", "December"];
+            var months = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli","August", "September", "Oktober", "November", "Dezember"];
             jpdf.html(document.body, {html2canvas: { scale: scale },callback: function(jpdf) {
-                jpdf.save(bm + " " + currentDate.getDate() + "-" + months[currentDate.getMonth()+1] + "-" + currentDate.getFullYear() +'.pdf');
+                jpdf.save(bm + " " + currentDate.getDate() + "-" + months[currentDate.getMonth()] + "-" + currentDate.getFullYear() +'.pdf');
             }})
         }
     </script>
