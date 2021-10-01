@@ -78,9 +78,9 @@
             let margin = 18;
             let scale = (pWidth - margin * 2) / srcWidth;
             var currentDate = new Date();
-            var months = ["January", "February", "March", "April", "May", "June", "July","August", "September", "October", "November", "December"];
+            var months = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli","August", "September", "Oktober", "November", "Dezember"];
             jpdf.html(document.body, {html2canvas: { scale: scale },callback: function(jpdf) {
-                jpdf.save(bm + " " + currentDate.getDate() + "-" + months[currentDate.getMonth()+1] + "-" + currentDate.getFullYear() +'.pdf');
+                jpdf.save(bm + " " + currentDate.getDate() + "-" + months[currentDate.getMonth()] + "-" + currentDate.getFullYear() +'.pdf');
             }})
         }
     </script>
