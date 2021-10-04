@@ -48,7 +48,7 @@ async function nachpruefen(bm) {
 
 function createHtml(pcc, vorschau) {
     try {
-        document.getElementById("FormblattPDF").hidden = true;
+        document.getElementById("FormblattPDF").parentNode.removeChild( document.getElementById("FormblattPDF"));
     } catch (e) {}
     
     rows = parseInt(document.getElementById("input1").value);
@@ -196,7 +196,7 @@ function createHtml(pcc, vorschau) {
     }
 }
 
-async function weiter(pcc, edit) {
+async function weiter(pcc) {
     rows = parseInt(document.getElementById("input1").value);
     if (!Number.isInteger(rows)) {
         document.getElementById("input1").style = "background-color: rgb(255, 125, 100);";
@@ -352,13 +352,30 @@ function createStationRow(i) {
     return station;
 }
 
-function editbm() {
+async function editbm(pcc) {
     bm = document.getElementById("edit_select").value;
-    console.log(bm)
+    data = [bm]
+    options = {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }
+    const response = await fetch("/getintervals", options)
+    const intervals = await response.json()
+    intervalle = []
+    for (item in intervals) {
+        intervalle.push(intervals[item])
+    }
+    intervalle.shift()
+
     $(document).ready(function()
     {
         $.get(`/forms/pcc_50/${bm}.html`, function (html_string) {
-            console.log(html_string)
+            try {
+                document.getElementById("editbm_fb1").innerHTML = ""
+            } catch (e) {}
             formblatt = document.getElementById("editbm_fb1")
             formblatt.hidden=false;
             var regex = /"stationstext"/gi, result, indices1 = [], indices2 = [];
@@ -385,12 +402,136 @@ function editbm() {
                 sensor = sensor.substring(0, sensor.indexOf("u><")-2)
                 fehlerart = curText.substring(curText.indexOf("Fehlerart:</u>")+15, curText.indexOf("<br><u>Pr"))
                 pruefbes = curText.substring(curText.indexOf("Prüfbeschr.:")+17)
-                console.log(stname)
                 document.getElementById("stname_" + i).value = stname;
                 document.getElementById("sensor_" + i).value = sensor;
                 document.getElementById("fehlerart_" + i).value = fehlerart;
                 document.getElementById("pruefbes_" + i).value = pruefbes;
+                document.getElementById("intervall_" + i).value = intervalle[i-1]
             }
+            vorschau = document.createElement("a");
+            vorschau.setAttribute("onclick", `edit(${indices1.length}, '${bm}', '${pcc}', true)`)
+            vorschau.className = "button";
+            vorschau.innerHTML = "Vorschau";
+            formblatt.appendChild(vorschau)
+            speichern = document.createElement("a");
+            speichern.setAttribute("onclick", `edit(${indices1.length}, '${bm}', '${pcc}', false)`)
+            speichern.className = "button";
+            speichern.innerHTML = "Speichern";
+            formblatt.appendChild(speichern)
         }, 'html');
     });
+}
+
+function edit(rows, bm, pcc, vorschau) {
+    try {
+        document.getElementById("FormblattPDF").parentNode.removeChild( document.getElementById("FormblattPDF"));
+    } catch (e) {}
+    formblatt = document.createElement("div");
+    formblatt.className = "formblatt";
+    formblatt.id = "FormblattPDF";
+    nachpruefen = document.createElement("a");
+    nachpruefen.setAttribute("onclick",`nachpruefen('${bm}')`);
+    nachpruefen.className= "submit";
+    nachpruefen.innerHTML = "Nachprüfung";
+    formblatt.appendChild(nachpruefen)
+    intervalle = []
+
+    for (var i=1; i<=rows; i++) {
+        var formzeile = document.createElement("div");
+        formzeile.className = "formzeile";
+        formzeile.id = bm + "_fz_" + i;
+
+        //Formfeld1-Gerüst
+        var formfeld1 = document.createElement("div")
+        formfeld1.className = "formfeld1";
+        //Label zu Formfeld1 hinzufügen
+        label_text = ""
+        stname = document.getElementById("stname_" + i).value;
+        sensor = document.getElementById("sensor_" + i).value;
+        fehlerart = document.getElementById("fehlerart_" + i).value;
+        pruefbes = document.getElementById("pruefbes_" + i).value;
+        label_text = "<u>" + stname + " || " + sensor + "</u><br><u>Fehlerart:</u> " + fehlerart + "<br><u>Prüfbeschr.:</u> " + pruefbes;
+        var label = document.createElement("label")
+        label.htmlFor = bm + '_' + i;
+        label.id = "stationstext"
+        label.innerHTML = label_text;
+        formfeld1.appendChild(label);
+        cur_int = document.getElementById("intervall_" + i).value;
+        if (cur_int == "") {
+            cur_int = 1;
+        }
+        cur_int = parseInt(cur_int);
+        intervalle.push(cur_int);
+
+        //Formfeld2-Gerüst
+        var formfeld2 = document.createElement("div");
+        formfeld2.className = "formfeld2";
+        //Dropdown zu Formfeld2 hinzufügen
+        var dropdown = document.createElement("select")
+        dropdown.id = bm + '_' + i;
+        options = ["k.P.", "n.i.O.", "i.O."]
+        for (var x = 0; x < 3; x++) {
+            var option = document.createElement("option")
+            option.value = options[x]
+            option.innerHTML = options[x]
+            dropdown.appendChild(option)
+        }
+        formfeld2.appendChild(dropdown);
+
+        //Formfeld3-Gerüst
+        var formfeld3 = document.createElement("div")
+        formfeld3.className = "formfeld3";
+        var input = document.createElement("input");
+        input.type = "text";
+        input.id = bm + '_' + i + '_i';
+        input.size = 15;
+        formfeld3.appendChild(input);
+
+        //Formfelder zu Formzeile hinzufügen
+        formzeile.appendChild(formfeld1);
+        formzeile.appendChild(formfeld2);
+        formzeile.appendChild(formfeld3);
+        //Formzeile zu Formblatt hinzufügen
+        formblatt.appendChild(formzeile);
+    }
+    pdfbtn = document.createElement("a");
+    pdfbtn.setAttribute("onclick",`pdf('${bm}')`);
+    pdfbtn.className = "submit";
+    pdfbtn.innerHTML = "Abschicken";
+    formblatt.appendChild(pdfbtn);
+    if (vorschau) {
+        var currentDiv = document.getElementById("FormblattPDF");
+        document.body.insertBefore(formblatt, currentDiv);
+    } else {
+        data = [bm, intervalle]
+        options = {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }
+        fetch('/editintervals', options)
+        strformblatt = formblatt.innerHTML;
+        $(document).ready(function()
+        {
+            $.get(`/forms/pcc_${pcc}/${bm}.html`, function(html_string)
+            {
+                html_split = html_string.split("<!--EditSplit1-->")
+                html_split2 = html_string.split("<!--EditSplit2-->")
+                new_html = html_split[0] + formblatt.innerHTML + html_split2[1]
+                data = [pcc, bm, new_html]
+                options = {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }
+                fetch("/savebm", options)
+                alert(`${bm} erfolgreich gespeichert!`)
+                location.reload()
+            },'html');
+        });
+    }
 }
