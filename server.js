@@ -256,6 +256,22 @@ app.post("/createdatabase", (req,res) => {
     createDatabase(bm, rows, intervalle)
 })
 
+app.post("/editintervals", (req,res) => {
+    bm =req.body[0]
+    intervalle = req.body[1]
+    ints = [`'${bm}'`]
+    marvins = "bm"
+    for (var i = 1; i <= intervalle.length; i++) {
+        marvins += ",ST" + i
+        ints.push(`'${intervalle[i - 1]}'`)
+    }
+    var db = new sqlite3.Database('./database/bm_database.db');
+    db.get(`DELETE FROM intervalle WHERE bm='${bm}'`, (err, row) => {
+    });
+    db.get(`INSERT INTO intervalle (${marvins}) VALUES (${ints})`)
+    db.close();  
+})
+
 app.post("/checkbm", (req,res) => {
     bm = req.body[0]
     var db = new sqlite3.Database('./database/bm_database.db');
@@ -267,11 +283,6 @@ app.post("/checkbm", (req,res) => {
         }
     })
     db.close();  
-})
-
-app.post("/editbm", (req,res) => {
-    html = req.body[0]
-    console.log(html)
 })
 
 app.post('/submit', (req,res) => {
@@ -307,6 +318,16 @@ app.get('/password', (req,res) => {
     //Dieser link wird nur durch den "Überprüfen" Button gefetched
     let db = new sqlite3.Database('./database/bm_database.db');
     db.all("SELECT valuestream, password FROM passwords", function(err, data) {
+        res.json(data);
+        return;
+    });
+    db.close();
+})
+
+app.post("/getintervals", (req,res) => {
+    bm = req.body[0]
+    let db = new sqlite3.Database('./database/bm_database.db');
+    db.get(`SELECT * FROM intervalle WHERE bm='${bm}'`, function(err, data) {
         res.json(data);
         return;
     });
