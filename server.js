@@ -1,4 +1,3 @@
-
 const { response } = require('express');
 const express = require('express');
 const path = require('path');
@@ -170,6 +169,10 @@ app.get('/HxgZyR3mU/bm[0-9]{6}', (req,res) => {
     res.sendFile(path.join(__dirname, htmlPath));
 });
 
+app.get('/HxgZyR3mU/faelligdashboard', (req,res) => { 
+    res.sendFile(path.join(__dirname, '/forms/pcc_50/faelligdashboard.html'));
+})
+
 
 app.get('/7TrZzuiMo', (req,res) => {
     //BM-Auswahl für den Valuestream PCC 10
@@ -328,6 +331,40 @@ app.post("/getintervals", (req,res) => {
     bm = req.body[0]
     let db = new sqlite3.Database('./database/bm_database.db');
     db.get(`SELECT * FROM intervalle WHERE bm='${bm}'`, function(err, data) {
+        res.json(data);
+        return;
+    });
+    db.close();
+})
+
+app.post("/logs", (req,res) => {
+    ereignis = req.body[0]
+    bm = req.body[1]
+    date = new Date()
+    date = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate() + " " + date.getHours()+ ":" + date.getMinutes()+ ":" + date.getSeconds()
+    let db = new sqlite3.Database('./database/bm_database.db');
+    db.get(`INSERT INTO logs VALUES ('${date}','${ereignis}','${bm}')`, function(err, data) {
+        if (err) {
+            throw err;
+        }
+    });
+    db.close();
+})
+
+app.post("/getletzte", (req,res) => {
+    bm = req.body[0]
+    let db = new sqlite3.Database('./database/bm_database.db');
+    db.get(`SELECT letzte FROM ${bm} ORDER BY 1 DESC`, function(err, data) {
+        res.json(data);
+        return;
+    });
+    db.close();
+})
+
+app.post("/numofstations", (req,res) => {
+    bm=req.body[0]
+    let db = new sqlite3.Database('./database/bm_database.db');
+    db.get(`SELECT * FROM ${bm} ORDER BY 1 DESC`, function(err, data) {
         res.json(data);
         return;
     });
