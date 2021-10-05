@@ -71,3 +71,9 @@ main {
       width: 100%;
       height: auto;
   }
+
+  #sinput {
+      margin-top: 10px;
+      margin-bottom: 20px;
+      width: 90%;
+  }

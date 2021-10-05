@@ -189,6 +189,16 @@ function createHtml(pcc, vorschau) {
                     body: JSON.stringify(data)
                 }
                 fetch('/newbtn', options)
+                data = ["Erstellen", bm]
+                options = {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }
+                fetch('/logs', options)
+
                 location.reload();
                 alert(bm + " wurde erfolgreich erstellt!")
             },'html');
@@ -276,6 +286,15 @@ function deletebm(vs) {
                 body: JSON.stringify(data)
             }
             fetch("/deletebm", options)
+            data = ["Löschen", bm]
+                options = {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }
+                fetch('/logs', options)
             location.reload();
         }, 'html');
     });
@@ -529,9 +548,37 @@ function edit(rows, bm, pcc, vorschau) {
                     body: JSON.stringify(data)
                 }
                 fetch("/savebm", options)
+                data = ["Bearbeiten", bm]
+                options = {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }
+                fetch('/logs', options)
                 alert(`${bm} erfolgreich gespeichert!`)
                 location.reload()
             },'html');
         });
     }
 }
+
+function search() {
+    // Declare variables
+    var input, filter, ul, li, a, i, txtValue;
+    input = document.getElementById('sinput');
+    input = input.value.toUpperCase();
+    btn = document.getElementsByClassName('button')
+
+  
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 1; i < btn.length; i++) {
+      txtValue = btn[i].innerHTML;
+      if (txtValue.toUpperCase().indexOf(input) > -1) {
+        btn[i].style.display = "";
+      } else {
+        btn[i].style.display = "none";
+      }
+    }
+  }
