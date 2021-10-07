@@ -173,6 +173,14 @@ app.get('/HxgZyR3mU/faelligdashboard', (req,res) => {
     res.sendFile(path.join(__dirname, '/forms/pcc_50/faelligdashboard.html'));
 })
 
+app.get('/HxgZyR3mU/fehlerdashboard', (req,res) => { 
+    res.sendFile(path.join(__dirname, '/forms/pcc_50/fehlerdashboard.html'));
+})
+
+app.get('/HxgZyR3mU/historie', (req,res) => { 
+    res.sendFile(path.join(__dirname, '/forms/pcc_50/historie.html'));
+})
+
 
 app.get('/7TrZzuiMo', (req,res) => {
     //BM-Auswahl für den Valuestream PCC 10
@@ -370,6 +378,27 @@ app.post("/numofstations", (req,res) => {
     });
     db.close();
 })
+
+app.post('/gethistory', (req,res) => {
+    bm = req.body[0];
+    var db = new sqlite3.Database('./database/bm_database.db');
+    db.all(`SELECT * FROM ${bm} WHERE letzte != '1' ORDER BY 1 DESC `, (err, rows) => {
+        res.json(rows);
+        return;
+    })
+    db.close();  
+})
+
+app.post('/letztereintrag', (req,res) => {
+    bm = req.body[0];
+    var db = new sqlite3.Database('./database/bm_database.db');
+    db.get(`SELECT * FROM ${bm} ORDER BY 1 DESC LIMIT 1 `, (err, row) => {
+        res.json(row);
+        return;
+    })
+    db.close();  
+})
+
 
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'));

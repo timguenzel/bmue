@@ -538,7 +538,7 @@ function edit(rows, bm, pcc, vorschau) {
             {
                 html_split = html_string.split("<!--EditSplit1-->")
                 html_split2 = html_string.split("<!--EditSplit2-->")
-                new_html = html_split[0] + formblatt.innerHTML + html_split2[1]
+                new_html = html_split[0] + "<!--EditSplit1-->" + formblatt.innerHTML + "<!--EditSplit2-->" +html_split2[1]
                 data = [pcc, bm, new_html]
                 options = {
                     method: "POST",
@@ -582,3 +582,59 @@ function search() {
       }
     }
   }
+
+  async function fehlerbm() {
+      try {
+        tbl = document.getElementById("thistory");
+        tbl.parentNode.removeChild(tbl)
+      } catch (e) {}
+      bm = document.getElementById("bms").value;
+      data = [bm]
+        options = {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }
+        response = await fetch("/gethistory", options)
+        letzte = await response.json()
+        table = document.createElement("table")
+        table.id = "thistory"
+        length = Object.keys(letzte[0]).length
+        thead = document.createElement("thead")
+        trow = document.createElement("tr")
+        for (item of letzte) {
+            for (x in item) {
+                th = document.createElement("th")
+                th.innerHTML = x
+                trow.appendChild(th)
+            }
+            break;
+        }
+        thead.appendChild(trow)
+        table.appendChild(thead)
+
+        tbody = document.createElement("tbody")
+        for (item of letzte) {
+            trow = trow = document.createElement("tr")
+            for (x in item) {
+                td = document.createElement("td")
+                if (x == 'letzte') {
+                    date = new Date(parseInt(item[x]))
+                    td.innerHTML = date.getFullYear() + "-" + ((date.getMonth()+1 < 10)? "0" + (date.getMonth()+1): date.getMonth()+1) + "-" + ((date.getDate()<10)?"0" + (date.getDate()): date.getDate()) + " " + ((date.getHours()<10)?"0" + (date.getHours()): date.getHours()) + ":" + ((date.getMinutes()<10)?"0" + date.getMinutes(): date.getMinutes()) + ":" + ((date.getSeconds()<10)?"0" + date.getSeconds(): date.getSeconds())
+                } else {
+                    td.innerHTML = item[x]
+                }
+                trow.appendChild(td)
+            }
+            tbody.appendChild(trow)
+        }
+        table.appendChild(tbody)
+
+        document.getElementById("historie").appendChild(table)
+  }
+
+function fehlerdb(id) {
+    alert(document.getElementById(id).innerHTML)
+}

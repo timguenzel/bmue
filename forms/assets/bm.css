@@ -176,8 +176,8 @@ main {
  
  #dashboard {
    background: white;
-   margin-left: 20%;
-   margin-right: 20%;
+   margin-left: 10%;
+   margin-right: 10%;
  }
 
  #bmdashboard {
@@ -187,7 +187,52 @@ main {
    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
    font-size: 18px;
    border: 2px solid rgb(92, 92, 92);
-   width:30%;
+   max-width:33%;
+   min-width: 20%;
    margin: 10px 10px 10px 10px;
-   float:left;
+   height: max-content;
+   float: left;
+   box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
  }
+
+ .fehlerdb:hover {
+   cursor: pointer;
+   filter:brightness(0.85)
+ }
+
+table td {
+  border: 1px solid black;
+  padding: 8px;
+}
+
+table th {
+  border: 1px solid black;
+  padding: 8px;
+  background: #3DA7B3;
+  position: sticky;
+  top: 0px;
+}
+
+table tr {background: #FFF}
+table tr:nth-child(even) {background: #DDD}
+
+table {
+  margin-top: 10px;
+  display: block;
+  overflow-x: auto;
+  overflow-y: auto;
+  white-space: nowrap;
+  border-collapse: collapse;
+  border-spacing: 0;
+  text-align: center;
+  max-height: 500px;
+  width: 100%;
+  font-size: 14px;
+  box-shadow: 3px 3px 6px rgba(0,0,0,0.2)
+}
+
+#historie {
+  width: 100%;
+  height: 300px;
+  overflow-y: auto;
+}
