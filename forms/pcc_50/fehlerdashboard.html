@@ -78,7 +78,7 @@
                         div3.innerHTML = fehler[j] + ": " + fehler[j+1]
                         div3.style.border = "0.5px solid black"
                         div3.style.background = "red"
-                        div3.id = "fehlerdb" + "_" +(j+1) + "_" +bms[i]
+                        div3.id = "fehlerdb" + "_" +(j+1) + "_" +bms[i] + "_" + "50" //
                         div3.className="fehlerdb"
                         div3.setAttribute("onclick","fehlerdb(this.id)")
                         div2.appendChild(div3)
@@ -91,6 +91,15 @@
                 }
             })
         };
+
+        var modal = document.getElementsByClassName("modal")[0];
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                try {
+                    modal.parentNode.removeChild(modal)
+                } catch (e) {}
+            }
+        }
         
     </script>
     <script src="/forms/functions.js"></script>
