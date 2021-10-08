@@ -4,7 +4,7 @@ const path = require('path');
 const app = express();
 const sqlite3 = require('sqlite3').verbose();
 const fs = require('fs');
-port = prcoess.env.PORT || 80
+port = process.env.PORT || 80
 
 app.use(express.json({limit: '1mb'}));
 
