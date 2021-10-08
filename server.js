@@ -399,6 +399,16 @@ app.post('/letztereintrag', (req,res) => {
     db.close();  
 })
 
+app.post("/updatefehler", (req,res) => {
+    bm = req.body[0]
+    st = "ST" + req.body[1]
+    letzte = req.body[2]
+    var db = new sqlite3.Database('./database/bm_database.db');
+    db.get(`UPDATE ${bm} SET ${st} = 'i.O.' WHERE letzte = '${letzte}'`, (err, row) => {
+    })
+    db.close();
+})
+
 
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'));
