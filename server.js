@@ -4,6 +4,7 @@ const path = require('path');
 const app = express();
 const sqlite3 = require('sqlite3').verbose();
 const fs = require('fs');
+port = prcoess.env.PORT || 80
 
 app.use(express.json({limit: '1mb'}));
 
@@ -411,4 +412,4 @@ app.post("/updatefehler", (req,res) => {
 
 
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'));
+app.listen(port, () => console.log('Example app listening on port 3000!'));
