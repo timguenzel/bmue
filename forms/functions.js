@@ -469,7 +469,7 @@ function edit(rows, bm, pcc, vorschau) {
         sensor = document.getElementById("sensor_" + i).value;
         fehlerart = document.getElementById("fehlerart_" + i).value;
         pruefbes = document.getElementById("pruefbes_" + i).value;
-        label_text = "<u>" + stname + " || " + sensor + "</u><br><u>Fehlerart:</u> " + fehlerart + "<br><u>Prüfbeschr.:</u> " + pruefbes;
+        label_text = "<u>" + stname + "||" + sensor + "</u><br><u>Fehlerart:</u> " + fehlerart + "<br><u>Prüfbeschr.:</u> " + pruefbes;
         var label = document.createElement("label")
         label.htmlFor = bm + '_' + i;
         label.id = "stationstext"
@@ -635,6 +635,96 @@ function search() {
         document.getElementById("historie").appendChild(table)
   }
 
-function fehlerdb(id) {
-    alert(document.getElementById(id).innerHTML)
+async function fehlerdb(id) {
+    bm = document.getElementById(id).parentNode.innerHTML.substring(0,8)
+    fehlertext = document.getElementById(id).innerHTML;
+    data = [bm]
+    options = {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }
+    response = await fetch("/letztereintrag", options)
+    date = await response.json()
+    date = new Date(parseInt(date["letzte"]));
+    date = date.getFullYear() + "-" + ((date.getMonth()+1 < 10)? "0" + (date.getMonth()+1): date.getMonth()+1) + "-" + ((date.getDate()<10)?"0" + (date.getDate()): date.getDate()) + " " + ((date.getHours()<10)?"0" + (date.getHours()): date.getHours()) + ":" + ((date.getMinutes()<10)?"0" + date.getMinutes(): date.getMinutes()) + ":" + ((date.getSeconds()<10)?"0" + date.getSeconds(): date.getSeconds())
+    pcc = id.substring(id.length-2,id.length)
+    stnum = parseInt(fehlertext.substring(2, fehlertext.indexOf(":")))
+    modal = document.createElement("div")
+    modal.className = "modal"
+    modal.id = "modal_" + bm + "_" + stnum;
+    modalBox = document.createElement("div")
+    modalBox.className = "modalbox"
+    modalContent = document.createElement("div")
+    modalContent.className = "modal-content"
+    $(document).ready(function()
+        {
+            $.get(`/forms/pcc_${pcc}/${bm}.html`, function(html_string)
+            {
+                var regex = /"stationstext"/gi, result, indices1 = [], indices2 = [];
+                while ( (result = regex.exec(html_string)) ) {
+                    indices1.push(result.index);
+                }
+                regex = /label></gi
+                while ( (result = regex.exec(html_string)) ) {
+                    indices2.push(result.index);
+                }
+
+                curText = html_string.substring(indices1[stnum - 1] + 18, indices2[stnum - 1] - 2)
+                stname = curText.split("||")[0]
+                sensor = curText.split("||")[1]
+                sensor = sensor.substring(0, sensor.indexOf("u><") - 2)
+                fehlerart = curText.substring(curText.indexOf("Fehlerart:</u>") + 15, curText.indexOf("<br><u>Pr"))
+                pruefbes = curText.substring(curText.indexOf("Prüfbeschr.:") + 17)
+                label = document.createElement("label")
+                label.innerHTML = "<b>" + stname + ((sensor != " ") ? "||" + sensor : "") + "</b><br> <u>Fehlerart:</u> " + fehlerart + "<br> <u>Fehlerbemerkung:</u> " + fehlertext.substring(fehlertext.indexOf(":") + 1) + "<br><u>Fehler entdeckt:</u> " + date + "<br><u>Fehler abgestellt?</u> <select id='modalselect'> <option value='ja'>Ja</option> <option value='nein'>Nein</option> </select>"
+                label.style.fontSize = "20px"
+                label.style.textAlign = "center"
+                btn = document.createElement("a")
+                btn.setAttribute("onclick","checkmodal()")
+                btn.className = "modalBtn"
+                btn.innerHTML = "OK"
+                modalContent.appendChild(label)
+                modalContent.appendChild(btn)
+                modalBox.appendChild(modalContent)
+                modal.appendChild(modalBox)
+                document.body.appendChild(modal)
+                modal.style.display = "block";
+            },'html');
+        })
+}
+
+async function checkmodal() {
+    abgestellt = document.getElementById("modalselect").value;
+    modal = document.getElementsByClassName("modal")[0];
+    modal.parentNode.removeChild(modal);
+    if (abgestellt == "nein") {
+        return
+    } else {
+        bm = modal.id.split("_")[1]
+        stnum = modal.id.split("_")[2]
+        data = [bm, stnum]
+        options = {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }
+        response = await fetch("/letztereintrag", options)
+        date = await response.json()
+        date = date["letzte"]
+        data = [bm, stnum, date]
+        options = {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }
+        response = fetch("/updatefehler", options)
+        location.reload()
+    }
 }
