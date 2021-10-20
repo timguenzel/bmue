@@ -679,7 +679,7 @@ async function fehlerdb(id) {
                 fehlerart = curText.substring(curText.indexOf("Fehlerart:</u>") + 15, curText.indexOf("<br><u>Pr"))
                 pruefbes = curText.substring(curText.indexOf("Prüfbeschr.:") + 17)
                 label = document.createElement("label")
-                label.innerHTML = "<b>" + stname + ((sensor != " ") ? "||" + sensor : "") + "</b><br> <u>Fehlerart:</u> " + fehlerart + "<br> <u>Fehlerbemerkung:</u> " + fehlertext.substring(fehlertext.indexOf(":") + 1) + "<br><u>Fehler entdeckt:</u> " + date + "<br><u>Fehler abgestellt?</u> <select id='modalselect'> <option value='ja'>Ja</option> <option value='nein'>Nein</option> </select>"
+                label.innerHTML = "<b>" + stname + ((sensor != " ") ? "||" + sensor : "") + "</b><br> <u>Fehlerart:</u> " + fehlerart + "<br> <u>Fehlerbemerkung:</u> " + fehlertext.substring(fehlertext.indexOf(":") + 1) + "<br><u>Fehler entdeckt:</u> " + date + "<br><u>Fehler abgestellt?</u> <select id='modalselect'> <option value='nein'>Nein</option> <option value='ja'>Ja</option> </select>"
                 label.style.fontSize = "20px"
                 label.style.textAlign = "center"
                 btn = document.createElement("a")
