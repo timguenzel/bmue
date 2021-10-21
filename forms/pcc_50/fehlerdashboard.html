@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fehler-Dashboard</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="/forms/assets/bm.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+    <header>
+        <nav>
+            <a onclick="window.history.back()" class="button">Zurück</a>
+            <h1>Fehler-Dashboard PCC 50</h1>
+        </nav>
+    </header>  
+    <main>
+        <div id="dashboard"></div>
+    </main>
+    <script>
+        async function getBMS(callback) {
+            $(document).ready(function () {
+                $.get(`/forms/pcc_50/vs_50.html`, function (html_string) {
+                    var regex = /id=/gi, result, indices = [];
+                    while ((result = regex.exec(html_string))) {
+                        indices.push(result.index);
+                    }
+                    indices.shift()
+                    indices.shift()
+                    indices.shift()
+                    indices.shift()
+                    indices.shift()
+                    bms = []
+                    for (var i = 0; i < indices.length; i++) {
+                        bms.push(html_string.substring(indices[i] + 4, indices[i] + 12))
+                    }
+                    callback(bms)
+                }, 'html');
+            })
+        }
+
+
+        window.onload = async function () {
+            getBMS(async function (bms) {
+                for (var i = 0; i < bms.length; i++) {  
+                    data = [bms[i]]
+                    options = {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    }
+                    response = await fetch("/letztereintrag", options)
+                    letzte = await response.json()
+                    fehler = []
+                    for (item in letzte) {
+                        if(letzte[item] == "n.i.O.") {
+                            fehler.push(item)
+                            fehler.push(letzte[`${item}_messung`])
+                        }
+                    }
+                    div = document.getElementById("dashboard")
+                    div2 = document.createElement("div")
+                    div2.id = "bmdashboard"
+                    div2.innerHTML = bms[i]
+                    if (fehler.length == 0) {
+                        div3 = document.createElement("div")
+                        div3.style.border = "0.5px solid black"
+                        div3.innerHTML = "Keine Fehler"
+                        div3.style.background = "lime"
+                        div2.appendChild(div3)
+                    }
+                    for (var j=0; j< fehler.length; j++) {
+                        div3 = document.createElement("div")
+                        div3.innerHTML = fehler[j] + ": " + fehler[j+1]
+                        div3.style.border = "0.5px solid black"
+                        div3.style.background = "red"
+                        div3.id = "fehlerdb" + "_" +(j+1) + "_" +bms[i] + "_" + "50" //
+                        div3.className="fehlerdb"
+                        div3.setAttribute("onclick","fehlerdb(this.id)")
+                        div2.appendChild(div3)
+                        j++;
+                    }
+                    div.appendChild(div2)
+
+                    document.body.appendChild(div)
+
+                }
+            })
+        };
+
+        var modal = document.getElementsByClassName("modal")[0];
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                try {
+                    modal.parentNode.removeChild(modal)
+                } catch (e) {}
+            }
+        }
+        
+    </script>
+    <script src="/forms/functions.js"></script>
+</body>
+</html>

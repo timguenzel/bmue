@@ -1,5 +1,5 @@
 {
-	"name": "bmü",
+	"name": "bmuedigital",
 	"version": "1.0.0",
 	"description": "Betriebsmittelüberprüfung digital",
 	"main": "server.js",
@@ -13,10 +13,7 @@
 		"file-saver": "^2.0.5",
 		"fs-extra": "^10.0.0",
 		"html2canvas": "^1.3.2",
-		"html2pdf": "0.0.11",
-		"html2pdf.js": "^0.10.1",
 		"jspdf": "^2.4.0",
-		"pdfcrowd": "^5.2.0",
 		"qrcode": "^1.4.4",
 		"sqlite3": "^5.0.2"
 	}

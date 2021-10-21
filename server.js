@@ -1,10 +1,10 @@
-
 const { response } = require('express');
 const express = require('express');
 const path = require('path');
 const app = express();
 const sqlite3 = require('sqlite3').verbose();
 const fs = require('fs');
+port = process.env.PORT || 80
 
 app.use(express.json({limit: '1mb'}));
 
@@ -160,11 +160,27 @@ app.get('/HxgZyR3mU/bmconf/delbm', (req,res) => {
     res.sendFile(path.join(__dirname, '/forms/pcc_50/delbm.html'));
 })
 
+app.get('/HxgZyR3mU/bmconf/editbm', (req,res) => { 
+    res.sendFile(path.join(__dirname, '/forms/pcc_50/editbm.html'));
+})
+
 app.get('/HxgZyR3mU/bm[0-9]{6}', (req,res) => {
     //BMÜ-Formblatt eines BMs aus dem Valuestream PCC 50
     var htmlPath = './forms/pcc_50/' + req.originalUrl.split('/')[2] + '.html';
     res.sendFile(path.join(__dirname, htmlPath));
 });
+
+app.get('/HxgZyR3mU/faelligdashboard', (req,res) => { 
+    res.sendFile(path.join(__dirname, '/forms/pcc_50/faelligdashboard.html'));
+})
+
+app.get('/HxgZyR3mU/fehlerdashboard', (req,res) => { 
+    res.sendFile(path.join(__dirname, '/forms/pcc_50/fehlerdashboard.html'));
+})
+
+app.get('/HxgZyR3mU/historie', (req,res) => { 
+    res.sendFile(path.join(__dirname, '/forms/pcc_50/historie.html'));
+})
 
 
 app.get('/7TrZzuiMo', (req,res) => {
@@ -252,6 +268,22 @@ app.post("/createdatabase", (req,res) => {
     createDatabase(bm, rows, intervalle)
 })
 
+app.post("/editintervals", (req,res) => {
+    bm =req.body[0]
+    intervalle = req.body[1]
+    ints = [`'${bm}'`]
+    marvins = "bm"
+    for (var i = 1; i <= intervalle.length; i++) {
+        marvins += ",ST" + i
+        ints.push(`'${intervalle[i - 1]}'`)
+    }
+    var db = new sqlite3.Database('./database/bm_database.db');
+    db.get(`DELETE FROM intervalle WHERE bm='${bm}'`, (err, row) => {
+    });
+    db.get(`INSERT INTO intervalle (${marvins}) VALUES (${ints})`)
+    db.close();  
+})
+
 app.post("/checkbm", (req,res) => {
     bm = req.body[0]
     var db = new sqlite3.Database('./database/bm_database.db');
@@ -261,11 +293,9 @@ app.post("/checkbm", (req,res) => {
         } else {
             res.json(true);
         }
-        
     })
     db.close();  
 })
-
 
 app.post('/submit', (req,res) => {
     //Dieser link wird nur durch den "Abschicken" Button gefetched
@@ -306,5 +336,80 @@ app.get('/password', (req,res) => {
     db.close();
 })
 
+app.post("/getintervals", (req,res) => {
+    bm = req.body[0]
+    let db = new sqlite3.Database('./database/bm_database.db');
+    db.get(`SELECT * FROM intervalle WHERE bm='${bm}'`, function(err, data) {
+        res.json(data);
+        return;
+    });
+    db.close();
+})
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'));
+app.post("/logs", (req,res) => {
+    ereignis = req.body[0]
+    bm = req.body[1]
+    date = new Date()
+    date = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate() + " " + date.getHours()+ ":" + date.getMinutes()+ ":" + date.getSeconds()
+    let db = new sqlite3.Database('./database/bm_database.db');
+    db.get(`INSERT INTO logs VALUES ('${date}','${ereignis}','${bm}')`, function(err, data) {
+        if (err) {
+            throw err;
+        }
+    });
+    db.close();
+})
+
+app.post("/getletzte", (req,res) => {
+    bm = req.body[0]
+    let db = new sqlite3.Database('./database/bm_database.db');
+    db.get(`SELECT letzte FROM ${bm} ORDER BY 1 DESC`, function(err, data) {
+        res.json(data);
+        return;
+    });
+    db.close();
+})
+
+app.post("/numofstations", (req,res) => {
+    bm=req.body[0]
+    let db = new sqlite3.Database('./database/bm_database.db');
+    db.get(`SELECT * FROM ${bm} ORDER BY 1 DESC`, function(err, data) {
+        res.json(data);
+        return;
+    });
+    db.close();
+})
+
+app.post('/gethistory', (req,res) => {
+    bm = req.body[0];
+    var db = new sqlite3.Database('./database/bm_database.db');
+    db.all(`SELECT * FROM ${bm} WHERE letzte != '1' ORDER BY 1 DESC `, (err, rows) => {
+        res.json(rows);
+        return;
+    })
+    db.close();  
+})
+
+app.post('/letztereintrag', (req,res) => {
+    bm = req.body[0];
+    var db = new sqlite3.Database('./database/bm_database.db');
+    db.get(`SELECT * FROM ${bm} ORDER BY 1 DESC LIMIT 1 `, (err, row) => {
+        res.json(row);
+        return;
+    })
+    db.close();  
+})
+
+app.post("/updatefehler", (req,res) => {
+    bm = req.body[0]
+    st = "ST" + req.body[1]
+    letzte = req.body[2]
+    var db = new sqlite3.Database('./database/bm_database.db');
+    db.get(`UPDATE ${bm} SET ${st} = 'i.O.' WHERE letzte = '${letzte}'`, (err, row) => {
+    })
+    db.close();
+})
+
+
+
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));
